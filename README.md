@@ -4,6 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Stargazers](https://img.shields.io/github/stars/ntalekt/md-toc?style=flat)](https://github.com/ntalekt/md-toc/stargazers)
 [![Last commit](https://img.shields.io/github/last-commit/ntalekt/md-toc?style=flat)](https://github.com/ntalekt/md-toc/commits/master)
+[![Build Status](https://github.com/ntalekt/md-toc/actions/workflows/python-app.yml/badge.svg)](https://github.com/ntalekt/md-toc/actions)
 
 `md-toc` is a simple command-line tool that generates a table of contents (TOC) for Markdown files. It can insert the TOC directly into your Markdown file or output it to the console.
 
