@@ -1,6 +1,7 @@
 # md_toc/toc_generator.py
 import re
 
+
 def generate_toc(markdown_text, max_level=6, indent=2):
     lines = markdown_text.splitlines()
     toc_lines = []
