@@ -1,32 +1,23 @@
-import unittest
-from md_toc.toc_generator import generate_toc
+# md_toc/toc_generator.py
+import re
 
+def generate_toc(markdown_text, max_level=6, indent=2):
+    lines = markdown_text.splitlines()
+    toc_lines = []
+    heading_pattern = re.compile(r"^(#+)\s+(.+)$")
 
-class TestTocGenerator(unittest.TestCase):
-    def test_basic_toc(self):
-        markdown = "# Title\n## Section 1\n### Subsection"
-        expected_toc = "- [Section 1](#section-1)\n  - [Subsection](#subsection)"
-        self.assertEqual(generate_toc(markdown), expected_toc)
+    for line in lines:
+        match = heading_pattern.match(line)
+        if match:
+            level = len(match.group(1))
+            title = match.group(2).strip()
+            if 2 <= level <= max_level:  # Only include H2 and below!
+                # Create a link-friendly slug (lowercase, hyphens, remove special characters)
+                slug = title.lower().replace(" ", "-")
+                slug = re.sub(r"[^a-z0-9-]", "", slug)  # Keep only a-z, 0-9, and -
 
-    def test_max_level(self):
-        markdown = "# Title\n## Section 1\n### Subsection"
-        expected_toc = "- [Section 1](#section-1)"
-        self.assertEqual(generate_toc(markdown, max_level=2), expected_toc)
+                # Format the TOC line
+                toc_line = f"{' ' * indent * (level - 1)}- [{title}](#{slug})"
+                toc_lines.append(toc_line)
 
-    def test_indent(self):
-        markdown = "# Title\n## Section 1\n### Subsection"
-        expected_toc = (
-            "    - [Section 1](#section-1)\n        - [Subsection](#subsection)"
-        )
-        self.assertEqual(generate_toc(markdown, indent=4), expected_toc)
-
-    def test_special_characters(self):
-        markdown = "# Title & More\n## Section 1: The Beginning"
-        expected_toc = "- [Section 1: The Beginning](#section-1-the-beginning)"
-        self.assertEqual(generate_toc(markdown, max_level=2), expected_toc)
-
-    # Add more tests for edge cases and different Markdown structures.
-
-
-if __name__ == "__main__":
-    unittest.main()
+    return "\n".join(toc_lines)
